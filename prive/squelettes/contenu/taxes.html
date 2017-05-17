@@ -1,0 +1,9 @@
+<div class="nettoyeur"></div>
+
+<h1 class="grostitre"><:taxe:titre_taxes:></h1>
+
+<INCLURE{fond=prive/objets/liste/taxes, par=taxe, env, ajax, sinon=<:taxe:info_aucune_taxe:>}>
+
+[(#AUTORISER{creer,taxe})
+	[(#URL_ECRIRE{taxe_edit,new=oui}|parametre_url{redirect,#ENV{redirect}}|icone_verticale{<:taxe:icone_creer_taxe:>,taxe,new,right})]
+]

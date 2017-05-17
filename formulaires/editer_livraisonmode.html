@@ -1,0 +1,82 @@
+[(#REM)
+
+	Surcharge
+	- changement de la saisie pays d'un input vers un select multiple
+	- ajout d'une saisie indiquant qu'on veut exclure les pays
+	- changement de l'input taxe en select
+
+]
+<div class='formulaire_spip formulaire_editer formulaire_#FORM formulaire_#FORM-#ENV{id_livraisonmode,nouveau}'>
+	[<p class="reponse_formulaire reponse_formulaire_ok">(#ENV**{message_ok})</p>]
+	[<p class="reponse_formulaire reponse_formulaire_erreur">(#ENV*{message_erreur})</p>]
+
+	<BOUCLE_editable(CONDITION){si #ENV{editable}}>
+	<form method='post' action='#ENV{action}'><div>
+		#ACTION_FORMULAIRE{#ENV{action}}
+		<input type='hidden' name='id_livraisonmode' value='#ENV{id_livraisonmode}' />
+		<ul>
+
+			[(#SAISIE{input, titre, obligatoire=oui,
+				label=<:livraisonmode:champ_titre_label:>})]
+
+			[(#SAISIE{input, identifiant, obligatoire=oui,
+				label=<:bigaille:champ_livraisonmode_identifiant_label:>,
+				explication=<:bigaille:champ_livraisonmode_identifiant_explication:>})]
+
+			[(#SAISIE{textarea, descriptif,
+				label=<:livraisonmode:champ_descriptif_label:>,
+				rows=5})]
+
+			[(#SAISIE{pays, zone_pays,
+				label=<:livraisonmode:champ_zone_pays_label:>,
+				multiple=oui,
+				champ_pays=code,
+				class=chosen})]
+
+			[(#REM)
+			[(#SAISIE{case, exclure_pays,
+				label_case=<:bigaille:champ_livraisonmode_exclure_pays_label:>,
+				explication=<:bigaille:champ_livraisonmode_exclure_pays_explication:>,
+				valeur_oui=1, valeur_non=0})]
+			]
+
+			[(#SAISIE{input, zone_cp,
+				label=<:livraisonmode:champ_zone_cp_label:>,
+				explication=<:livraisonmode:champ_zone_cp_explication:> })]
+
+			[(#SAISIE{input, zone_cp_exclus,
+				label=<:livraisonmode:champ_zone_cp_exclus_label:>,
+				explication=<:livraisonmode:champ_zone_cp_exclus_explication:> })]
+
+			#SET{taxes,#ARRAY{0.00,#VAL{#VAL{prix:champ_taxe_aucune}|_T}}}
+			<BOUCLE_taxes(TAXES)>#SET{taxes,#GET{taxes}|array_merge{#ARRAY{#TAXE,#TITRE}}}</BOUCLE_taxes>
+			[(#SAISIE{selection,taxe,
+				label=<:prix:champ_taxe_label:>,
+				cacher_option_intro=oui,
+				datas=#GET{taxes}})]
+
+			[(#SAISIE{input, prix_forfait_ht,
+				label=<:livraisonmode:champ_prix_forfait_ht_label:>,
+				explication=<:livraisonmode:champ_prix_forfait_ht_explication:> })]
+
+			[(#SAISIE{input, prix_unit_ht,
+				label=<:livraisonmode:champ_prix_unit_ht_label:>,
+				explication=<:livraisonmode:champ_prix_unit_ht_explication:> })]
+
+			[(#SAISIE{textarea, prix_poids_ht,
+				label=<:livraisonmode:champ_prix_poids_ht_label:>,
+				explication=<:livraisonmode:champ_prix_poids_ht_explication:> ,
+				rows=5})]
+
+			[(#SAISIE{textarea, prix_volume_ht,
+				label=<:livraisonmode:champ_prix_volume_ht_label:>,
+				explication=<:livraisonmode:champ_prix_volume_ht_explication:> ,
+				rows=5})]
+
+		</ul>
+		[(#REM) ajouter les saisies supplementaires : extra et autre, a cet endroit ]
+		<!--extra-->
+		<p class="boutons"><input type='submit' class='submit' value='<:bouton_enregistrer:>' /></p>
+	</div></form>
+</BOUCLE_editable>
+</div>

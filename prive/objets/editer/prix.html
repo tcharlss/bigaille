@@ -1,0 +1,15 @@
+#SET{mode,#ENV{prix}|is_null|?{#EVAL{_request('prix');},#ENV{prix}}|sinon{voir}}
+#SET{id_prix_objet,#ENV{id_prix_objet}|is_null|?{#EVAL{_request('id_prix_objet');},#ENV{id_prix_objet}}}
+[(#SET{lien_ajouter,<a href="[(#SELF|parametre_url{prix,editer})]" class="ajax link-add right">[(#CHEMIN_IMAGE{ajouter-12}|balise_img)&nbsp;]<:prix:texte_ajouter_prix:></a>})]
+
+[(#GET{mode}|=={voir}|oui)
+#BOITE_OUVRIR{'','simple raw'}
+<INCLURE{fond=prive/objets/liste/prix_objets, env, nb_max=1, sinon=#GET{lien_ajouter}}>
+#BOITE_FERMER
+]
+
+[(#GET{mode}|=={editer}|oui)
+<div class="ajax">
+#FORMULAIRE_EDITER_PRIX{#GET{id_prix_objet},#ENV{objet},#ENV{id_objet}}
+</div>
+]

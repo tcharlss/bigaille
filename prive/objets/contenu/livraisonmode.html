@@ -1,0 +1,58 @@
+<BOUCLE_livraisonmode(LIVRAISONMODES){id_livraisonmode}{statut?}>
+
+[<div class="champ contenu_titre[ (#TITRE*|strlen|?{'',vide})]">
+	<label><:livraisonmode:champ_titre_label:> : </label>
+	<span dir='#LANG_DIR' class='#EDIT{titre} titre'>(#TITRE)</span>
+</div>]
+
+[<div class="champ contenu_descriptif[ (#DESCRIPTIF*|strlen|?{'',vide})]">
+	<label><:livraisonmode:champ_descriptif_label:> : </label>
+	<span dir='#LANG_DIR' class='#EDIT{descriptif} descriptif'>(#DESCRIPTIF)</span>
+</div>]
+
+	<div class="champs-techniques">
+
+	<div class="champ contenu_zone_pays[ (#ZONE_PAYS*|strlen|?{'',vide})]">
+		<label><:livraisonmode:champ_zone_pays_label:> : </label>
+		<span dir='#LANG_DIR' class='#EDIT{zone_pays} zone_pays'>
+			<BOUCLE_pays(PAYS){code IN #ZONE_PAYS|explode{','}}{', '}>#NOM <small><code>\[#CODE\]</code></small></BOUCLE_pays>
+		</span>
+	</div>
+
+	[<div class="champ contenu_zone_cp[ (#ZONE_CP*|strlen|?{'',vide})]">
+		<label><:livraisonmode:champ_zone_cp_label:> : </label>
+		<span dir='#LANG_DIR' class='#EDIT{zone_cp} zone_cp'>(#ZONE_CP)</span>
+	</div>]
+
+	[<div class="champ contenu_zone_cp_exclus[ (#ZONE_CP_EXCLUS*|strlen|?{'',vide})]">
+		<label><:livraisonmode:champ_zone_cp_exclus_label:> : </label>
+		<span dir='#LANG_DIR' class='#EDIT{zone_cp_exclus} zone_cp_exclus'>(#ZONE_CP_EXCLUS)</span>
+	</div>]
+
+	[<div class="champ contenu_taxe[ (#TAXE*|strlen|?{'',vide})]">
+		<label><:livraisonmode:champ_taxe_label:> : </label>
+		<span dir='#LANG_DIR' class='#EDIT{taxe} taxe'>(#TAXE)</span>
+	</div>]
+
+	[<div class="champ contenu_prix_forfait_ht[ (#PRIX_FORFAIT_HT*|strlen|?{'',vide})]">
+		<label><:livraisonmode:champ_prix_forfait_ht_label:> : </label>
+		<span dir='#LANG_DIR' class='#EDIT{prix_forfait_ht} prix_forfait_ht'>(#PRIX_FORFAIT_HT)</span>
+	</div>]
+
+	[<div class="champ contenu_prix_unit_ht[ (#PRIX_UNIT_HT*|strlen|?{'',vide})]">
+		<label><:livraisonmode:champ_prix_unit_ht_label:> : </label>
+		<span dir='#LANG_DIR' class='#EDIT{prix_unit_ht} prix_unit_ht'>(#PRIX_UNIT_HT)</span>
+	</div>]
+
+	[<div class="champ contenu_prix_poids_ht[ (#PRIX_POIDS_HT*|strlen|?{'',vide})]">
+		<label><:livraisonmode:champ_prix_poids_ht_label:> : </label>
+		<span dir='#LANG_DIR' class='#EDIT{prix_poids_ht} prix_poids_ht'>(#PRIX_POIDS_HT)</span>
+	</div>]
+
+	[<div class="champ contenu_prix_volume_ht[ (#PRIX_VOLUME_HT*|strlen|?{'',vide})]">
+		<label><:livraisonmode:champ_prix_volume_ht_label:> : </label>
+		<span dir='#LANG_DIR' class='#EDIT{prix_volume_ht} prix_volume_ht'>(#PRIX_VOLUME_HT)</span>
+	</div>]
+
+</div>
+</BOUCLE_livraisonmode>

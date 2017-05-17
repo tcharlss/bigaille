@@ -1,0 +1,9 @@
+<div class="nettoyeur"></div>
+
+<h1 class="grostitre"><:devise:titre_devises:></h1>
+
+<INCLURE{fond=prive/objets/liste/devises, par=devise, env, ajax, sinon=<:devise:info_aucune_devise:>}>
+
+[(#AUTORISER{creer,devise})
+	[(#URL_ECRIRE{devise_edit,new=oui}|parametre_url{redirect,#ENV{redirect}}|icone_verticale{<:devise:icone_creer_devise:>,devise,new,right})]
+]

@@ -1,0 +1,35 @@
+[(#SET{defaut_tri,#ARRAY{
+	titre,1,
+	taxe,1,
+	id_taxe,1,
+	points,-1
+}})]<B_liste_taxes>
+#ANCRE_PAGINATION
+<div class="liste-objets taxes">
+<table class='spip liste'>
+	[<caption><strong class="caption">(#ENV*{titre,#GRAND_TOTAL|singulier_ou_pluriel{taxe:info_1_taxe,taxe:info_nb_taxes}})</strong></caption>]
+	<thead>
+		<tr class='first_row'>
+			<th class='taxe' scope='col'>[(#TRI{taxe,<:taxe:champ_taxe_label:>,ajax})]</th>
+			<th class='titre' scope='col'>[(#TRI{titre,<:taxe:champ_titre_label:>,ajax})]</th>
+			<th class='id' scope='col'>[(#TRI{id_taxe,<:info_numero_abbreviation:>,ajax})]</th>
+		</tr>
+	</thead>
+	<tbody>
+	<BOUCLE_liste_taxes(TAXES){id_mot?}{id_auteur?}{where?}{recherche?}{tri #ENV{par,taxe},#GET{defaut_tri}}{par titre}{pagination #ENV{nb,10}}>
+		<tr class='[(#COMPTEUR_BOUCLE|alterner{row_odd,row_even})]'>
+			<td class='taxe principale'>[(#TAXE|mult{100})&nbsp;%]</td>
+			<td class='titre'>[(#LOGO_TAXE|image_reduire{20,26})]<a href="[(#ID_TAXE|generer_url_entite{taxe})]" title="<:info_numero_abbreviation|attribut_html:> #ID_TAXE">[(#RANG). ]#TITRE</a></td>
+			<td class='id'>[(#AUTORISER{modifier,taxe,#ID_TAXE}|?{
+				<a href="[(#URL_ECRIRE{taxe_edit,id_taxe=#ID_TAXE})]">#ID_TAXE</a>,
+				#ID_TAXE
+			})]</td>
+		</tr>
+	</BOUCLE_liste_taxes>
+	</tbody>
+</table>
+[<p class='pagination'>(#PAGINATION{prive})</p>]
+</div>
+</B_liste_taxes>[
+<div class="liste-objets taxes caption-wrap"><strong class="caption">(#ENV*{sinon,''})</strong></div>
+]<//B_liste_taxes>

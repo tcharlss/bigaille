@@ -1,0 +1,83 @@
+<BOUCLE_devises_toutes(DEVISES)>
+#SET{devises_toutes,#GET{devises_toutes}|sinon{#ARRAY}|array_merge{#ARRAY{#DEVISE,<code>#DEVISE</code> \(#NOM\)}}}
+</BOUCLE_devises_toutes>
+<BOUCLE_devises_actives(DEVISES){devise IN #CONFIG{bigaille/devises}}>
+#SET{devises_actives,#GET{devises_actives}|sinon{#ARRAY}|array_merge{#ARRAY{#DEVISE,#DEVISE \(#NOM\)}}}
+</BOUCLE_devises_actives>
+<BOUCLE_objets(DATA){source table, #REM|lister_tables_objets_sql}>
+#SET{objets, #GET{objets}|sinon{#ARRAY}|array_merge{#ARRAY{#CLE,#VALEUR{texte_objets}|_T}}}
+</BOUCLE_objets>
+#SET{taxes,#ARRAY{0.00,#VAL{#VAL{prix:champ_taxe_aucune}|_T}}}
+<BOUCLE_taxes(TAXES)>
+#SET{taxes,#GET{taxes}|array_merge{#ARRAY{#TAXE,#TITRE}}}
+</BOUCLE_taxes>
+<div class="formulaire_spip formulaire_configurer formulaire_#FORM">
+
+	<h3 class="titrem"><:bigaille:cfg_titre_parametrages:></h3>
+
+	[<p class="reponse_formulaire reponse_formulaire_ok">(#ENV*{message_ok})</p>]
+	[<p class="reponse_formulaire reponse_formulaire_erreur">(#ENV*{message_erreur})</p>]
+
+	<form method="post" action="#ENV{action}">
+	<div>
+		#ACTION_FORMULAIRE{#ENV{action}}
+
+		[(#REM) Devises ]
+		<fieldset id="devises">
+			<legend><:bigaille:cfg_fieldset_devises:></legend>
+			<p class="explication"><:bigaille:cfg_fieldset_devises_explication:></p>
+			<[(#VAL{ul}|saisie_balise_structure_formulaire)] class="editer-groupe">
+
+				[(#REM) devises activées ]
+				[(#SAISIE{selection_multiple,devises,
+					label=<:bigaille:cfg_devises_label:>,
+					datas=#GET{devises_toutes},
+					class=chosen})]
+
+				[(#REM) devise par défaut quand plusieurs devises sont activées ]
+				[(#CONFIG{bigaille/devises}|count|>{1}|oui)
+				[(#SAISIE{selection,devise_defaut,
+						label=<:bigaille:cfg_devise_defaut_label:>,
+						datas=#GET{devises_actives}})]
+				]
+
+			</[(#VAL{ul}|saisie_balise_structure_formulaire)]>
+		</fieldset>
+
+		[(#REM) Prix ]
+		<fieldset id="prix">
+			<legend><:bigaille:cfg_fieldset_prix:></legend>
+			<p class="explication"><:bigaille:cfg_fieldset_prix_explication:></p>
+			<[(#VAL{ul}|saisie_balise_structure_formulaire)] class="editer-groupe">
+				[(#REM) objets sur lesquels afficher les prix ]
+				[(#SAISIE{selection_multiple, prix_objets,
+					label=<:bigaille:cfg_prix_objets_label:>,
+					datas=#GET{objets},
+					exclus=#LISTE{spip_devises,spip_prix,spip_taxes},
+					class=chosen})]
+			</[(#VAL{ul}|saisie_balise_structure_formulaire)]>
+		</fieldset>
+
+		[(#REM) Taxes par défaut pour chaque objet,
+		        enregistrées dans les clés taxe_{objet}
+		]
+		<B_taxes_objets>
+		<fieldset id="taxes">
+			<legend><:bigaille:cfg_fieldset_taxes:></legend>
+			<p class="explication"><:bigaille:cfg_fieldset_taxes_explication:></p>
+			<[(#VAL{ul}|saisie_balise_structure_formulaire)] class="editer-groupe">
+				<BOUCLE_taxes_objets(DATA){source table, #CONFIG{bigaille/prix_objets}|array_filter}>
+				[(#SAISIE{selection, #VAL{taxe_}|concat{#VALEUR|objet_type},
+					label=[(#VALEUR|objet_icone{16})&nbsp;][(#VALEUR|objet_info{texte_objets}|_T)],
+					datas=#GET{taxes},
+					cacher_option_intro=oui})]
+				</BOUCLE_taxes_objets>
+			</[(#VAL{ul}|saisie_balise_structure_formulaire)]>
+		</fieldset>
+		</B_taxes_objets>
+
+		<input type="hidden" name="_meta_casier" value="bigaille" />
+		<p class="boutons"><span class="image_loading">&nbsp;</span><input type="submit" class="submit" value="<:bouton_enregistrer:>" /></p>
+	</div>
+	</form>
+</div>

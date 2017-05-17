@@ -1,0 +1,20 @@
+<BOUCLE_test_multiple(CONDITION){si #ENV{multiple}|=={on}|oui}>
+	[(#SET{valeur,[(#ENV*{valeur}|is_array|?{[(#ENV*{valeur})],[(#ENV*{valeur}|explode{','})]})]})]
+	<B_taxes_selectionnes>
+	<ul>
+	<BOUCLE_taxes_selectionnes(TAXES){id_taxe IN #GET*{valeur}}
+		{par num titre, titre}{tout}>
+		<li class="choix">#TITRE (#ID_TAXE)</li>
+	</BOUCLE_taxes_selectionnes>
+	</ul>
+	</B_taxes_selectionnes>
+   	[(#ENV*{sans_reponse}|propre)]
+	<//B_taxes_selectionnes>
+</BOUCLE_test_multiple>
+	<BOUCLE_taxe_selectionne(TAXES){id_taxe=#ENV{valeur}}
+		{par num titre, titre}{tout}>
+	  	<p>#TITRE (#ID_TAXE)</p>
+	</BOUCLE_taxe_selectionne>
+   	[(#ENV*{sans_reponse}|propre)]
+	<//B_taxe_selectionne>
+<//B_test_multiple>

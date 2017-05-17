@@ -1,0 +1,33 @@
+<paquet
+	prefix="bigaille"
+	categorie="divers"
+	version="1.0.2"
+	etat="dev"
+	compatibilite="[3.0.0;3.2.*]"
+	logo="prive/themes/spip/images/bigaille-64.png"
+	documentation=""
+	schema="1.0.2"
+>
+
+	<nom>Bigaille</nom>
+
+	<auteur>tcharlss</auteur>
+
+	<licence>GNU/GPL</licence>
+	<necessite nom="saisies" compatibilite="[1.24.0;]" />
+	<necessite nom="pays" compatibilite="[3.1.0;]" />
+	<necessite nom="prix" compatibilite="[0.1.8;]" />
+	<utilise nom="livraison" compatibilite="[1.0.0;]" />
+
+	<pipeline nom="autoriser" inclure="bigaille_autorisations.php" />
+	<pipeline nom="affiche_milieu" inclure="bigaille_pipelines.php" />
+	<pipeline nom="optimiser_base_disparus" inclure="bigaille_pipelines.php" />
+	<pipeline nom="prix" inclure="bigaille_pipelines.php" />
+
+	<pipeline nom="declarer_tables_objets_sql" inclure="base/bigaille.php" />
+	<pipeline nom="declarer_tables_interfaces" inclure="base/bigaille.php" />
+	<pipeline nom="declarer_tables_auxiliaires" inclure="base/bigaille.php" />
+
+	<!--<menu nom="taxes" titre="taxe:titre_taxes" parent="menu_edition" icone="images/taxe-16.png" action="taxes" />-->
+	<!--<menu nom="devises" titre="devise:titre_devises" parent="menu_edition" icone="images/devise-16.png" action="devises" />-->
+</paquet>

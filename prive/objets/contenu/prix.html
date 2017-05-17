@@ -1,0 +1,23 @@
+<BOUCLE_prix(PRIX_OBJETS){id_prix_objet}>
+
+[<div class="champ contenu_prix_ht[ (#PRIX_HT*|strlen|?{'',vide})]">
+	<label><:prix:champ_prix_ht_label:> : </label>
+	<span dir='#LANG_DIR' class='#EDIT{prix_ht} prix_ht'>(#PRIX_HT)</span>
+</div>]
+
+[<div class="champ contenu_prix_ttc[ (#PRIX_TTC*|strlen|?{'',vide})]">
+	<label><:prix:champ_prix_ttc_label:> : </label>
+	<span dir='#LANG_DIR' class='#EDIT{prix_ttc} prix_ttc'>(#PRIX_TTC)</span>
+</div>]
+
+[<div class="champ contenu_taxe[ (#TAXE*|strlen|?{'',vide})]">
+	<label><:prix:champ_taxe_label:> : </label>
+	<span dir='#LANG_DIR' class='#EDIT{taxe} taxe'>(#TAXE)</span>
+</div>]
+
+[<div class="champ contenu_devise[ (#DEVISE*|strlen|?{'',vide})]">
+	<label><:prix:champ_devise_label:> : </label>
+	<span dir='#LANG_DIR' class='#EDIT{devise} devise'>(#DEVISE)</span>
+</div>]
+
+</BOUCLE_prix>

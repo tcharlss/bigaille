@@ -1,0 +1,31 @@
+[(#SET{defaut_tri,#ARRAY{
+	id_prix_objet,1,
+	prix_ht,1,
+	prix_ttc,1,
+	devise,1,
+	points,-1
+}})]<B_liste_prix>
+#ANCRE_PAGINATION
+<div class="liste-objets liste-raw prix">
+<table class='spip liste'>
+	<tbody>
+	<BOUCLE_liste_prix(PRIX_OBJETS){objet}{id_objet}{where?}{tri #ENV{par,devise},#GET{defaut_tri}}{par devise}{pagination #ENV{nb,10}}{0,#ENV{nb_max,9999}}>
+		<tr class='[(#COMPTEUR_BOUCLE|alterner{row_odd,row_even})]'>
+			<td class='picto'>[(#CHEMIN_IMAGE{prix-12}|balise_img)]</td>
+			<td class='prix principale'><strong><:prix:champ_prix_ttc_label:> : #PRIX</strong></td>
+			<td class='prix_ht secondaire'><:prix:champ_prix_ht_label:> : #PRIX_HT</td>
+			<td class='taxe secondaire'><BOUCLE_taxe(TAXES){taxe}>#TITRE</BOUCLE_taxe></td>
+			<td class='id'>[(#AUTORISER{modifier,#OBJET,#ID_OBJET}|?{
+				<a href="[(#SELF|parametre_url{prix,editer}|parametre_url{id_prix_objet,#ID_PRIX_OBJET})]" class="ajax">Modifier</a>
+				[(#BOUTON_ACTION{Retirer, #URL_ACTION_AUTEUR{supprimer_prix_objet,#ID_PRIX_OBJET,#SELF}, 'ajax link'})],
+				#ID_PRIX_OBJET
+			})]</td>
+		</tr>
+	</BOUCLE_liste_prix>
+	</tbody>
+</table>
+[<p class='pagination'>(#PAGINATION{prive})</p>]
+</div>
+</B_liste_prix>[
+(#ENV*{sinon,''})
+]<//B_liste_prix>

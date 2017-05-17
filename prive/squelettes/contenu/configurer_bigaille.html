@@ -1,0 +1,23 @@
+[(#AUTORISER{configurer,_Bigaille}|sinon_interdire_acces)]
+
+#SET{vues,#LISTE{configurer,taxes,devises,livraisons}}
+#SET{vue,#ENV{vue}|in_array{#GET{vues}}|?{#ENV{vue},configurer}}
+
+[(#GET{vue}|=={configurer}|oui)
+<h1 class="grostitre"><:bigaille:titre_page_configurer_Bigaille:></h1>
+<div class="ajax">
+	#FORMULAIRE_CONFIGURER_BIGAILLE
+</div>
+]
+
+[(#GET{vue}|=={taxes}|oui)
+	<INCLURE{fond=prive/squelettes/contenu/taxes, redirect=#SELF, ajax} />
+]
+
+[(#GET{vue}|=={devises}|oui)
+	<INCLURE{fond=prive/squelettes/contenu/devises, redirect=#SELF, ajax} />
+]
+
+[(#GET{vue}|=={livraisons}|oui)
+	<INCLURE{fond=prive/squelettes/contenu/livraisonmodes, redirect=#SELF, ajax} />
+]

@@ -1,0 +1,45 @@
+[(#SET{defaut_tri,#ARRAY{
+	nom,1,
+	id_devise,1,
+	devise,1,
+	complement,1,
+	symbole,1,
+	points,-1
+}})]<B_liste_devises>
+#ANCRE_PAGINATION
+<div class="liste-objets devises">
+<table class='spip liste'>
+	[<caption><strong class="caption">(#ENV*{titre,#GRAND_TOTAL|singulier_ou_pluriel{devise:info_1_devise,devise:info_nb_devises}})</strong></caption>]
+	<thead>
+		<tr class='first_row'>
+			<th class='statut' scope='col'>[(#TRI{statut,<span title="<:lien_trier_statut|attribut_html:>">#</span>,ajax})]</th>
+			<th class='devise' scope='col'>[(#TRI{devise,<:devise:champ_devise_label:>,ajax})]</th>
+			<th class='nom' scope='col'>[(#TRI{nom,<:devise:champ_nom_label:>,ajax})]</th>
+			<th class='symbole' scope='col'>[(#TRI{symbole,<:devise:champ_symbole_label:>,ajax})]</th>
+			[(#REM)<th class='complement' scope='col'>[(#TRI{complement,<:devise:champ_complement_label:>,ajax})]</th>]
+			<th class='pays' scope='col'><:devise:champ_pays_label:></th>
+			<th class='id' scope='col'>[(#TRI{id_devise,<:info_numero_abbreviation:>,ajax})]</th>
+		</tr>
+	</thead>
+	<tbody>
+	<BOUCLE_liste_devises(DEVISES){statut?}{devise?}{where?}{recherche?}{tri #ENV{par,devise},#GET{defaut_tri}}{par nom}{pagination #ENV{nb,20}}>
+		<tr class='[(#COMPTEUR_BOUCLE|alterner{row_odd,row_even})]'>
+			<td class='statut'>[(#STATUT|puce_statut{devise,#ID_DEVISE})]</td>
+			<td class='devise principale'><a href="[(#ID_DEVISE|generer_url_entite{devise})]" title="<:info_numero_abbreviation|attribut_html:> #ID_DEVISE">#DEVISE</a></td>
+			<td class='nom'>[(#LOGO_DEVISE|image_reduire{20,26})][(#RANG). ]#NOM</td>
+			<td class='symbole'>#SYMBOLE</td>
+			[(#REM)<td class='complement secondaire'>#COMPLEMENT</td>]
+			<td class='pays secondaire'><BOUCLE_pays(PAYS){id_devise}{", "}><a href="#URL_ECRIRE{pays,id_pays=#ID_PAYS}">#NOM</a></BOUCLE_pays></td>
+			<td class='id'>[(#AUTORISER{modifier,devise,#ID_DEVISE}|?{
+				<a href="[(#URL_ECRIRE{devise_edit,id_devise=#ID_DEVISE})]">#ID_DEVISE</a>,
+				#ID_DEVISE
+			})]</td>
+		</tr>
+	</BOUCLE_liste_devises>
+	</tbody>
+</table>
+[<p class='pagination'>(#PAGINATION{prive})</p>]
+</div>
+</B_liste_devises>[
+<div class="liste-objets devises caption-wrap"><strong class="caption">(#ENV*{sinon,''})</strong></div>
+]<//B_liste_devises>

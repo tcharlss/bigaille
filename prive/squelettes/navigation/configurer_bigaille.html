@@ -1,0 +1,29 @@
+#SET{vues,#LISTE{configurer,taxes,devises,livraisons}}
+#SET{vue,#ENV{vue}|in_array{#GET{vues}}|?{#ENV{vue},configurer}}
+<ul class="liste_items sous_navigation">
+
+		<li class="item[ (#GET{vue}|=={configurer}|oui)on]">
+			<a href="[(#SELF|parametre_url{vue,configurer})]" class="bando2_configurer_bigaille">
+				[(#CHEMIN_IMAGE{config-16}|balise_img) ]Configuration
+			</a>
+		</li>
+
+		<li class="item[ (#GET{vue}|=={taxes}|oui)on]">
+			<a href="[(#SELF|parametre_url{vue,taxes})]" class="bando2_configurer_taxes">
+				[(#VAL{taxe}|objet_icone{16}) ][(#VAL{taxe}|objet_info{texte_objets}|_T)]
+			</a>
+		</li>
+
+		<li class="item[ (#GET{vue}|=={devises}|oui)on]">
+			<a href="[(#SELF|parametre_url{vue,devises})]" class="bando2_configurer_devises">
+				[(#VAL{devise}|objet_icone{16}) ][(#VAL{devise}|objet_info{texte_objets}|_T)]
+			</a>
+		</li>
+
+    <li class="item[ (#GET{vue}|=={livraisons}|oui)on]">
+			<a href="[(#SELF|parametre_url{vue,livraisons})]" class="bando2_configurer_livraisons">
+				[(#VAL{livraisonmode}|objet_icone{16}) ][(#VAL{livraisonmode}|objet_info{texte_objets}|_T)]
+			</a>
+		</li>
+
+	</ul>

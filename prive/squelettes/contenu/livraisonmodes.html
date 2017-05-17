@@ -1,0 +1,16 @@
+[(#REM)
+
+	Surcharge :
+	- ajout du titre
+	- ajouter du redirect au bouton de création
+
+]
+<div class="nettoyeur"></div>
+
+<h1 class="grostitre"><:livraisonmode:titre_livraisonmodes:></h1>
+
+<INCLURE{fond=prive/objets/liste/livraisonmodes, par=titre, env, ajax, sinon=<:livraisonmode:info_aucun_livraisonmode:>}>
+
+[(#AUTORISER{creer,livraisonmode})
+	[(#URL_ECRIRE{livraisonmode_edit,new=oui}|parametre_url{redirect,#ENV{redirect}}|icone_verticale{<:livraisonmode:icone_creer_livraisonmode:>,livraisonmode,new,right})]
+]

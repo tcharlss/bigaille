@@ -1,0 +1,18 @@
+<BOUCLE_taxe(TAXES){id_taxe}>
+
+[<div class="champ contenu_titre[ (#TITRE*|strlen|?{'',vide})]">
+	<label><:taxe:champ_titre_label:> : </label>
+	<span dir='#LANG_DIR' class='#EDIT{titre} titre'>(#TITRE)</span>
+</div>]
+
+[<div class="champ contenu_descriptif[ (#DESCRIPTIF*|strlen|?{'',vide})]">
+	<label><:taxe:champ_descriptif_label:> : </label>
+	<span dir='#LANG_DIR' class='#EDIT{descriptif} descriptif'>(#DESCRIPTIF)</span>
+</div>]
+
+[<div class="champ contenu_taxe[ (#TAXE*|strlen|?{'',vide})]">
+	<label><:taxe:champ_taxe_label:> : </label>
+	<span dir='#LANG_DIR' class='#EDIT{taxe} taxe'>(#TAXE)</span>
+</div>]
+
+</BOUCLE_taxe>

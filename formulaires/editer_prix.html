@@ -1,0 +1,133 @@
+[(#REM)
+
+	Créer un prix et l'associer à un objet.
+
+]
+[(#REM) on chope les devises et les taxes pour alimenter les selects ]
+<BOUCLE_devises(DEVISES){devise IN #CONFIG{bigaille/devises}}>
+#SET{devises,#GET{devises}|sinon{#ARRAY}|array_merge{#ARRAY{#DEVISE,#DEVISE \(#NOM\)}}}
+</BOUCLE_devises>
+#SET{taxes,#ARRAY{0.00,#VAL{#VAL{prix:champ_taxe_aucune}|_T}}}
+<BOUCLE_taxes(TAXES)>#SET{taxes,#GET{taxes}|array_merge{#ARRAY{#TAXE,#TITRE}}}</BOUCLE_taxes>
+
+<div class='formulaire_spip formulaire_editer formulaire_#FORM formulaire_#FORM-#ENV{id_prix_objet,nouveau}'>
+	[<p class="reponse_formulaire reponse_formulaire_ok">(#ENV**{message_ok})</p>]
+	[<p class="reponse_formulaire reponse_formulaire_erreur">(#ENV*{message_erreur})</p>]
+
+	<BOUCLE_editable(CONDITION){si #ENV{editable}}>
+	<form method='post' action='#ENV{action}'><div>
+		#ACTION_FORMULAIRE{#ENV{action}}
+		<input type='hidden' name='id_prix_objet' value='#ENV{id_prix_objet}' />
+
+		<p class="explication">
+			<:prix:champ_explication:><br />
+			[<a href="(#URL_ECRIRE{taxe_edit, id_taxe=new}|parametre_url{redirect,#SELF})">[(#CHEMIN_IMAGE{ajouter-12}|balise_img{<:devise:texte_ajouter_taxe:>}) ]<:taxe:texte_ajouter_taxe:></a>]
+			[<a href="(#URL_ECRIRE{configurer_bigaille})">[(#CHEMIN_IMAGE{config-16}|balise_img{<:devise:texte_configurer_devises:>}) ]<:devise:texte_configurer_devises:></a>]
+		</p>
+
+		<ul>
+
+			[(#REM) Devise
+			        En fonction du nombre de devises activées dans la conf
+			        - 1 :   input en readonly
+			        - > 1 : select
+			]
+			[(#GET{devises}|count|>{1}|oui)
+				[(#SAISIE{selection,devise,
+					label=<:prix:champ_devise_label:>,
+					datas=#GET{devises},
+					defaut=#CONFIG{bigaille/devise_defaut},
+					cacher_option_intro=oui,
+					obligatoire=oui})]
+			][(#GET{devises}|count|=={1}|oui)
+				[(#SAISIE{input,devise,
+					label=<:prix:champ_devise_label:>,
+					readonly=oui,
+					valeur=#GET{devises}|reset})]
+			]
+
+			[(#REM) Taxe
+			        La taxe par défaut de l'objet se trouve dans le meta bigaille/taxe_{objet}
+			]
+			[(#SAISIE{selection,taxe,
+				label=<:prix:champ_taxe_label:>,
+				cacher_option_intro=oui,
+				datas=#GET{taxes},
+				defaut=#CONFIG{bigaille/taxe_#ENV{objet}},
+				obligatoire=oui})]
+
+			[(#REM) Prix HT ]
+			[(#SAISIE{input,prix_ht,
+				label=<:prix:champ_prix_ht_label:>,
+				explication=<:prix:champ_prix_explication:>,
+				obligatoire=oui})]
+
+			[(#REM) Prix TTC ]
+			[(#SAISIE{input,prix,
+				label=<:prix:champ_prix_ttc_label:>,
+				explication=<:prix:champ_prix_explication:>,
+				obligatoire=oui})]
+
+		</ul>
+
+		[(#REM) ajouter les saisies supplementaires : extra et autre, a cet endroit ]
+		<!--extra-->
+		<p class="boutons">
+			<input type='submit' class='submit' name='annuler' value='<:bouton_annuler:>' formnovalidate />
+			<input type='submit' class='submit' name='enregistrer' value='<:bouton_enregistrer:>' />
+		</p>
+	</div></form>
+	[(#REM) script pour synchroniser Prix HT et TTC ]
+	<script type='text/javascript'>/*<![CDATA[*/
+	$(document).ready(function() {
+		// init
+		$(synchroniserSaisiesPrix);
+		// relance
+		if (window.jQuery) {
+			jQuery(function(){
+				onAjaxLoad(synchroniserSaisiesPrix);
+			});
+		}
+		// fonction
+		function synchroniserSaisiesPrix() {
+			var form = $(".formulaire_editer_prix");
+			var input_prix_ht = form.find(".editer_prix_ht").children("[name='prix_ht']");
+			var input_prix_ttc = form.find(".editer_prix").children("[name='prix']");
+			var select_taxe = form.find(".editer_taxe").children("[name='taxe']");
+			// prix HT -> TTC
+			function updateTTC( input, taxe ) {
+				var prix_ht = parseFloat(input.val());
+				if (taxe === undefined) {
+					var taxe = parseFloat(select_taxe.val());
+				}
+				if (prix_ht !== undefined) {
+					var prix = prix_ht + (prix_ht * taxe);
+					input_prix_ttc.val( prix.toFixed(2) );
+				}
+			}
+			// PRIX TTC -> HT
+			function updateHT( input, taxe ) {
+				var prix_ttc = parseFloat(input.val());
+				if (taxe === undefined) {
+					var taxe = parseFloat(select_taxe.val());
+				}
+				if (prix_ttc !== undefined) {
+					var prix = prix_ttc / (1 + taxe);
+					input_prix_ht.val( prix.toFixed(2) );
+				}
+			}
+			input_prix_ht.bind("change keyup input", function() {
+				updateTTC($(this));
+			});
+			input_prix_ttc.bind("change keyup input", function() {
+				updateHT($(this));
+			});
+			select_taxe.change( function() {
+				var taxe = parseFloat($(this).val());
+				updateTTC(input_prix_ht, taxe);
+			});
+		}
+	});
+	/*]]>*/</script>
+	</BOUCLE_editable>
+</div>
