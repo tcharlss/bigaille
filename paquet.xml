@@ -1,12 +1,12 @@
 <paquet
 	prefix="bigaille"
 	categorie="divers"
-	version="1.0.2"
+	version="1.0.4"
 	etat="dev"
 	compatibilite="[3.0.0;3.2.*]"
 	logo="prive/themes/spip/images/bigaille-64.png"
 	documentation=""
-	schema="1.0.2"
+	schema="1.0.3"
 >
 
 	<nom>Bigaille</nom>

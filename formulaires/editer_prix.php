@@ -118,7 +118,7 @@ function formulaires_editer_prix_verifier_dist($id_prix_objet='new', $objet='', 
 	}
 
 	// on vérifie que le prix ttc soit cohérent avec la taxe et le prix HT
-	$prix_theorique = round($prix_ht + ($prix_ht * $taxe), 2);
+	$prix_theorique = round($prix_ht + ($prix_ht * $taxe), 4);
 	if ($prix != $prix_theorique) {
 		$erreurs['prix'] = _T('prix:champ_prix_ttc_erreur', array('prix'=>$prix_theorique));
 	}

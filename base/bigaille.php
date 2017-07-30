@@ -143,8 +143,8 @@ function bigaille_declarer_tables_auxiliaires($tables) {
 			"id_prix_objet" => "bigint(21) NOT NULL AUTO_INCREMENT",
 			"objet"         => "VARCHAR (25) DEFAULT '' NOT NULL",
 			"id_objet"      => "bigint(21) DEFAULT '0' NOT NULL",
-			"prix_ht"       => "float NOT NULL default 0",        // 10
-			"prix"          => "float NOT NULL default 0",        // 12
+			"prix_ht"       => "decimal(10,4) NOT NULL default 0", // 10
+			"prix"          => "decimal(10,4) NOT NULL default 0", // 12
 			"taxe"          => "decimal(4,3) DEFAULT NULL",       // 0.2 = #TAXE   dans spip_taxes
 			"devise"        => "varchar(3) NOT NULL default ''",  // EUR = #DEVISE dans spip_devises
 			"maj"           => "TIMESTAMP"
@@ -159,6 +159,3 @@ function bigaille_declarer_tables_auxiliaires($tables) {
 
 	return $tables;
 }
-
-
-?>

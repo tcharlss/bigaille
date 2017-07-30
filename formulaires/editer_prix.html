@@ -94,6 +94,7 @@
 			var input_prix_ht = form.find(".editer_prix_ht").children("[name='prix_ht']");
 			var input_prix_ttc = form.find(".editer_prix").children("[name='prix']");
 			var select_taxe = form.find(".editer_taxe").children("[name='taxe']");
+			var precision = 4;
 			// prix HT -> TTC
 			function updateTTC( input, taxe ) {
 				var prix_ht = parseFloat(input.val());
@@ -102,7 +103,7 @@
 				}
 				if (prix_ht !== undefined) {
 					var prix = prix_ht + (prix_ht * taxe);
-					input_prix_ttc.val( prix.toFixed(2) );
+					input_prix_ttc.val( prix.toFixed(precision) );
 				}
 			}
 			// PRIX TTC -> HT
@@ -113,7 +114,7 @@
 				}
 				if (prix_ttc !== undefined) {
 					var prix = prix_ttc / (1 + taxe);
-					input_prix_ht.val( prix.toFixed(2) );
+					input_prix_ht.val( prix.toFixed(precision) );
 				}
 			}
 			input_prix_ht.bind("change keyup input", function() {

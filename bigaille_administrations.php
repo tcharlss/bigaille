@@ -39,6 +39,12 @@ function bigaille_upgrade($nom_meta_base_version, $version_cible) {
 		array('maj_tables', array('spip_livraisonmodes')),
 	);
 
+	// augmenter les décimales pour les prix
+	$maj['1.0.3'] = array(
+		array('sql_alter', 'TABLE spip_prix_objets CHANGE prix_ht prix_ht decimal(10,4) NOT NULL default 0'),
+		array('sql_alter', 'TABLE spip_prix_objets CHANGE prix prix decimal(10,4) NOT NULL default 0'),
+	);
+
 	include_spip('base/upgrade');
 	include_spip('base/peupler_base_devises');
 	maj_plugin($nom_meta_base_version, $version_cible, $maj);
