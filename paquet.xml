@@ -1,7 +1,7 @@
 <paquet
 	prefix="bigaille"
 	categorie="divers"
-	version="1.0.4"
+	version="1.0.5"
 	etat="dev"
 	compatibilite="[3.0.0;3.2.*]"
 	logo="prive/themes/spip/images/bigaille-64.png"
@@ -23,6 +23,7 @@
 	<pipeline nom="affiche_milieu" inclure="bigaille_pipelines.php" />
 	<pipeline nom="optimiser_base_disparus" inclure="bigaille_pipelines.php" />
 	<pipeline nom="prix" inclure="bigaille_pipelines.php" />
+	<pipeline nom="post_edition" inclure="bigaille_pipelines.php" />
 
 	<pipeline nom="declarer_tables_objets_sql" inclure="base/bigaille.php" />
 	<pipeline nom="declarer_tables_interfaces" inclure="base/bigaille.php" />

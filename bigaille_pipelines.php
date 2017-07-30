@@ -9,7 +9,9 @@
  * @package    SPIP\Bigaille\Pipelines
  */
 
-if (!defined('_ECRIRE_INC_VERSION')) return;
+if (!defined('_ECRIRE_INC_VERSION')) {
+	return;
+}
 
 /**
  * Ajout de contenu sur certaines pages.
@@ -93,4 +95,38 @@ function bigaille_prix($flux){
 }
 
 
-?>
+/**
+ * Intervenir après l'édition d'un objet
+ *
+ * - Après le remplissage d'une commande depuis un panier, 
+ * mettre à jour les taxes des détails pour éviter les erreurs d'arrondi.
+ *
+ * @pipeline post_edition
+ * @param array $flux
+ *     Données du pipeline
+ * @return array
+ *     Données du pipeline
+ **/
+function bigaille_post_edition($flux) {
+
+	if (isset($flux['args']['table'])
+		and $flux['args']['table'] == 'spip_commandes'
+		and $flux['args']['action'] == 'remplir_commande'
+		and $id_commande = intval($flux['args']['id_objet'])
+		and $details = sql_allfetsel('id_commandes_detail,objet,id_objet,taxe', 'spip_commandes_details', 'id_commande='.intval($id_commande))
+	) {
+		foreach($details as $detail) {
+			if (floatval($detail['taxe']) > 0
+				and $vraie_taxe = sql_getfetsel('taxe', 'spip_prix_objets', array('objet='.sql_quote($detail['objet']), 'id_objet='.intval($detail['id_objet'])))
+				and floatval($vraie_taxe) !== floatval($detail['taxe'])
+			) {
+				$set = array(
+					'taxe' => floatval($vraie_taxe),
+				);
+				sql_updateq('spip_commandes_details', $set, 'id_commandes_detail='.intval($detail['id_commandes_detail']));
+			}
+		}
+	}
+
+	return $flux;
+}
