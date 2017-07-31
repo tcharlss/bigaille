@@ -113,17 +113,33 @@ function bigaille_post_edition($flux) {
 		and $flux['args']['table'] == 'spip_commandes'
 		and $flux['args']['action'] == 'remplir_commande'
 		and $id_commande = intval($flux['args']['id_objet'])
-		and $details = sql_allfetsel('id_commandes_detail,objet,id_objet,taxe', 'spip_commandes_details', 'id_commande='.intval($id_commande))
+		and $details = sql_allfetsel(
+			'id_commandes_detail, objet, id_objet, taxe',
+			'spip_commandes_details',
+			array(
+				'id_commande = '.intval($id_commande),
+				'taxe > 0'
+			)
+		)
 	) {
 		foreach($details as $detail) {
-			if (floatval($detail['taxe']) > 0
-				and $vraie_taxe = sql_getfetsel('taxe', 'spip_prix_objets', array('objet='.sql_quote($detail['objet']), 'id_objet='.intval($detail['id_objet'])))
+			if ($vraie_taxe = sql_getfetsel(
+				'taxe',
+				'spip_prix_objets',
+				array(
+					'objet = ' . sql_quote($detail['objet']),
+					'id_objet = ' . intval($detail['id_objet']))
+				)
 				and floatval($vraie_taxe) !== floatval($detail['taxe'])
 			) {
 				$set = array(
 					'taxe' => floatval($vraie_taxe),
 				);
-				sql_updateq('spip_commandes_details', $set, 'id_commandes_detail='.intval($detail['id_commandes_detail']));
+				sql_updateq(
+					'spip_commandes_details',
+					$set,
+					'id_commandes_detail = ' . intval($detail['id_commandes_detail'])
+				);
 			}
 		}
 	}
