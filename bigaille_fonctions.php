@@ -127,3 +127,30 @@ function filtres_prix_objet_formater_dist($prix){
 
 	return $prix;
 }
+
+
+/**
+ * Renvoie la taxe d'un objet donné
+ *
+ * @note : dans une boucle d'un objet, utiliser #TAXE directement
+ * @note : on utilise l'ordre des paramètres comme la fonction prix_objet du plugin prix
+ *
+ * @param int $id_objet
+ * @param string $objet
+ * @return float|bool
+ */
+if (!function_exists('taxe_objet')) {
+	function taxe_objet($id_objet, $objet){
+
+		$taxe = sql_getfetsel(
+			'taxe',
+			'spip_prix_objets',
+			array(
+				'objet = ' . sql_quote($objet),
+				'id_objet = ' . intval($id_objet), 
+			)
+		);
+
+		return floatval($taxe);
+	}
+}
