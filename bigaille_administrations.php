@@ -45,6 +45,12 @@ function bigaille_upgrade($nom_meta_base_version, $version_cible) {
 		array('sql_alter', 'TABLE spip_prix_objets CHANGE prix prix decimal(10,4) NOT NULL default 0'),
 	);
 
+	// ajouter une décimale aux taxes
+	$maj['1.0.4'] = array(
+		array('sql_alter', 'TABLE spip_taxes CHANGE taxe taxe decimal(4,4) DEFAULT NULL'),
+		array('sql_alter', 'TABLE spip_taxes CHANGE prix_objets taxe decimal(4,4) DEFAULT NULL'),
+	);
+
 	include_spip('base/upgrade');
 	include_spip('base/peupler_base_devises');
 	maj_plugin($nom_meta_base_version, $version_cible, $maj);

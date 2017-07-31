@@ -9,7 +9,9 @@
  * @package    SPIP\Bigaille\Pipelines
  */
 
-if (!defined('_ECRIRE_INC_VERSION')) return;
+if (!defined('_ECRIRE_INC_VERSION')) {
+	return;
+}
 
 
 /**
@@ -27,7 +29,7 @@ function bigaille_declarer_tables_interfaces($interfaces) {
 	$interfaces['table_des_tables']['devises'] = 'devises';
 	$interfaces['table_des_tables']['prix_objets'] = 'prix_objets';
 
-	$interfaces['table_des_traitements']['COMPLEMENT'][] = 'typo(extraire_multi(%s))';
+	$interfaces['table_des_traitements']['COMPLEMENT']['devises'] = 'typo(extraire_multi(%s))';
 	$interfaces['table_des_traitements']['PRIX']['prix_objets'] = '';
 	$interfaces['table_des_traitements']['PRIX_HT']['prix_objets'] = '';
 
@@ -54,7 +56,7 @@ function bigaille_declarer_tables_objets_sql($tables) {
 			"id_taxe"            => "bigint(21) NOT NULL",
 			"titre"              => "text NOT NULL DEFAULT ''",  // TVA standard 20%
 			"descriptif"         => "text NOT NULL DEFAULT ''",  // bla bla...
-			"taxe"               => "decimal(4,3) DEFAULT NULL", // 0.2
+			"taxe"               => "decimal(4,4) DEFAULT NULL", // 0.2
 			"maj"                => "TIMESTAMP"
 		),
 		'key' => array(
@@ -145,7 +147,7 @@ function bigaille_declarer_tables_auxiliaires($tables) {
 			"id_objet"      => "bigint(21) DEFAULT '0' NOT NULL",
 			"prix_ht"       => "decimal(10,4) NOT NULL default 0", // 10
 			"prix"          => "decimal(10,4) NOT NULL default 0", // 12
-			"taxe"          => "decimal(4,3) DEFAULT NULL",       // 0.2 = #TAXE   dans spip_taxes
+			"taxe"          => "decimal(4,4) DEFAULT NULL",       // 0.2 = #TAXE   dans spip_taxes
 			"devise"        => "varchar(3) NOT NULL default ''",  // EUR = #DEVISE dans spip_devises
 			"maj"           => "TIMESTAMP"
 		),
