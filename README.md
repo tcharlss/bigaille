@@ -1,7 +1,7 @@
-# Plugin bigaille 
+# Plugin Bigaille 
 
-> Ce plugin est une expérimùentation dépréciée !
-> Utilisez le plugin [API prix](https://git.spip.net/spip-contrib-extensions/prix) à la place.
+> **Ce plugin est une expérimentation dépréciée !**
+> **Utilisez le plugin [API prix](https://git.spip.net/spip-contrib-extensions/prix) à la place.**
 
 Un plugin SPIP pour gérer les prix des objets, définir des règles de taxe et les devises.
 
